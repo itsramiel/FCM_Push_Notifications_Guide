@@ -55,3 +55,46 @@ In your terminal: run `eas build -p android -profile development`, let the eas c
   4. Copy the token listed next to Server key.
      > Note: Server Key is only available in Cloud Messaging API (Legacy), which may be Disabled by default. Enable it by clicking the 3-dot menu > Manage API in Google Cloud Console and follow the flow there. Once the legacy messaging API is enabled, you should see Server Key in that section.
 - Add as google cloud messaging token and save.
+
+### Step 7: Write a basic app to give push token
+
+Just code a simple app that requests for the device push token and displays it:
+
+```
+  export default function App() {
+  const [devicePushToken, setDevicePushToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    registerForPushNotificationAsync().then(setDevicePushToken);
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <Text onPress={() => console.log(devicePushToken)}>{devicePushToken === null ? "nothing yet" : devicePushToken}</Text>
+    </View>
+  );
+}
+
+async function registerForPushNotificationAsync(): Promise<string | null> {
+  const { status: existingStatus } = await Notifications.getPermissionsAsync();
+  if (existingStatus === "denied") {
+    return null;
+  } else if (existingStatus === "undetermined") {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      return null;
+    }
+  }
+  const token = (await Notifications.getDevicePushTokenAsync()).data as string;
+
+  if (Platform.OS === "android") {
+    Notifications.setNotificationChannelAsync("default", {
+      name: "default",
+      importance: Notifications.AndroidImportance.MAX,
+      sound: "notfication_sound.wav",
+    });
+  }
+
+  return token;
+}
+```

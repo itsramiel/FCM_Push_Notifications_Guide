@@ -21,8 +21,8 @@ Inside app.json, inside the **expo** object, create a **plugins** key with an ob
       [
         "expo-notifications",
         {
-          "icon": "./assets/notification-icon.png",
-          "sounds": ["./assets/notfication-sound.wav"],
+          "icon": "./assets/notification_icon.png",
+          "sounds": ["./assets/notfication_sound.wav"],
           "color": "#E87EA1"
         }
       ]

@@ -67,8 +67,7 @@ You can refer to the [documentation](https://docs.expo.dev/versions/v45.0.0/sdk/
 -   add an ios app
     1. download GoogleServices-Info.plist
     2. save it in the root of your expo project
-    3. add the path to GoogleServices-Info.plist as a value for expo.android.
-       googleServicesFile in app.json
+    3. add the path to GoogleServices-Info.plist as a value for expo.ios.googleServicesFile in app.json
 
 ### Step 5: Ios SDK setup and configuration
 
